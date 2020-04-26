@@ -85,7 +85,7 @@
     NSMutableArray *files = [NSMutableArray arrayWithCapacity:42];
     
     NSString *filename ;
-    NSArray *extension = @[@"m", @"h"];
+    NSArray *extension = @[@"m", @"h", @"swift"];
     while (filename = [direnum nextObject]) {
         for (NSString *ext in extension) {
             if ([[filename pathExtension] isEqualToString:ext]) {
@@ -102,7 +102,7 @@
         
         NSString *str=[NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", home, filename] encoding:NSUTF8StringEncoding error:nil];
         
-        NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"@\"[^\"]*[\\u4E00-\\u9FA5]+[^\"\\n]*?\"" options:NSRegularExpressionCaseInsensitive error:nil];
+        NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"\"[^\"]*[\u4E00-\u9FA5]+[^\"\n]*?\"" options:NSRegularExpressionCaseInsensitive error:nil];
         
         NSArray *matches = [regular matchesInString:str
                                             options:0
@@ -149,7 +149,9 @@
             [dataMstr appendString:@"\n"];
             continue;
         }
-        [dataMstr appendString:[[txt stringByAppendingString:@"="] stringByAppendingString:                self.tradition.state ? [[ASConvertor getInstance] s2t:txt] : txt]];
+        NSLog(@"%@", txt);
+        [dataMstr appendString:@"\""];
+        [dataMstr appendString:[[txt stringByAppendingString:@"=\""] stringByAppendingString:                self.tradition.state ? [[ASConvertor getInstance] s2t:txt] : txt]];
         [dataMstr appendString:@";"];
         [dataMstr appendString:@"\n"];
     }
